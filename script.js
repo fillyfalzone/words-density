@@ -16,106 +16,54 @@ const reste = document.getElementById("reset");
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     const text = textAera.value;
-    let filteredText = text;
+    let filteredText = text.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ]/gi, " ");
     
     // Filtre tous les caractères spéciaux (avec une regex)
-    if (special_char.checked) {
-        filteredText = filteredText.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ]/gi, " ");
-    }
+    // if (special_char.checked) {
+    //     filteredText = filteredText.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ]/gi, " ");
+    // }
+
+
+    // Filtrer les éléments qui ne sont pas dans 'articles'
+    let tabFiltre = tab.filter(element => !articles.includes(element));
+
+
     // transformer la chaine de caractère en tableau
-    let filteredTextToArray = filteredText.split(' ');
+    let textToArray = filteredText.split(' ');
     //supprimer les indices qui sont des espaces
-    let filteredTextToArray2= filteredTextToArray.filter(indice => !indice.includes(" "));
+    textToArray = textToArray.filter(indice => !indice.includes(" "));
 
 // des modifications à faire pour la suite --------------------
 
     // Filtrer tous les articles
     if (articles_filter.checked) {
         let articles = ["le", "la", "les", "un", "une", "des"];
-        if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${articles.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${articles.join('|')})\\b`, 'gi'), "");
-        }
-    }
+        let textToArray  = textToArray.filter(indice => !articles.includes(indice));
+    } 
 
     //filtrer tous les conjonctions de coordination
     if (conj_coord_filter.checked) {
         let conj_coord = ["et", "mais", "ou", "donc", "or", "ni", "car"];
-        
-        if (articles_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_coord.join('|')})\\b`, 'gi'), "");
-        } else if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_coord.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${conj_coord.join('|')})\\b`, 'gi'), "");
-        }
-    }
-
-    //filtrer tous les conjonctions de coordination
-    if (conj_coord_filter.checked) {
-        let conj_coord = ["et", "mais", "ou", "donc", "or", "ni", "car"];
-        
-        if (articles_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_coord.join('|')})\\b`, 'gi'), "");
-        } else if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_coord.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${conj_coord.join('|')})\\b`, 'gi'), "");
-        }
+        textToArray = textToArray.filter(indice => !conj_coord.includes(indice));
     }
 
     //filtrer tous les pronoms personnels
     if (conj_sub_filter.checked) {
         let conj_sub = ["que", "quand", "si", "comme", "parce", "afin", "pendant"];
-
-        if (conj_coord_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_sub.join('|')})\\b`, 'gi'), "");
-        } else if (articles_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_sub.join('|')})\\b`, 'gi'), "");
-        } else if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${conj_sub.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${conj_sub.join('|')})\\b`, 'gi'), "");
-
-        }
+        textToArray = conj_sub.filter(indice => !indice.includes(" "));
     }
 
     //filtrer tous les conjonctions de subordination
     if (pronom_perso_filter.checked) {
         let pronoms_personnels = ["je","tu","il","elle","nous","vous","ils","elles"
-          ];
-
-        if (conj_sub_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_personnels.join('|')})\\b`, 'gi'), "");
-        } else if (conj_coord_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_personnels.join('|')})\\b`, 'gi'), "");
-        } else if (articles_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_personnels.join('|')})\\b`, 'gi'), "");
-        } else if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_personnels.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${pronoms_personnels.join('|')})\\b`, 'gi'), "");
-        }
+        ];
+        textToArray = pronoms_personnels.filter(indice => !indice.includes(" "));
     }
 
     //filtrer tous les conjonctions de subordination
     if (pronom_relatif_filter.checked) {
         let pronoms_relatifs = ["qui", "que", "dont", "lequel", "laquelle", "lesquels", "lesquelles"];
-        
-        if (pronom_perso_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_relatifs.join('|')})\\b`, 'gi'), "");
-        } else if (conj_sub_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_relatifs.join('|')})\\b`, 'gi'), "");
-        } else if (conj_coord_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_relatifs.join('|')})\\b`, 'gi'), "");
-        } else if (articles_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_relatifs.join('|')})\\b`, 'gi'), "");
-        } else if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${pronoms_relatifs.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${pronoms_relatifs.join('|')})\\b`, 'gi'), "");
-        }
+        textToArray = pronoms_relatifs.filter(indice => !indice.includes(" "));
     }
 
     //filtrer tous les conjonctions de subordination
@@ -206,26 +154,12 @@ form.addEventListener('submit', (event) => {
         //On va nettoyer le tableau de préposition avec la fonction perso
 
         let prepositionsClear = clearTable(prepositions);
-       
-
-        if(pronom_relatif_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        } else if (pronom_perso_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        } else if (conj_sub_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        } else if (conj_coord_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        } else if (articles_filter.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        } else if (special_char.checked) {
-            filteredText = filteredText.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        } else {
-            filteredText = text.replace(new RegExp(`\\b(?:${prepositionsClear.join('|')})\\b`, 'gi'), "");
-        }
+            
+        textToArray = prepositionsClear.filter(indice => !indice.includes(" "));
+        textToArray = textToArray.filter(indice => !indice.includes(''));
     }
 
-    console.log(filteredTextToArray2);
+    console.log(textToArray);
 });
 
 
@@ -240,7 +174,7 @@ function clearTable (table) {
     //supprimer tout les tirets et apostrophes 
     let clear = tableToString.replace(/[-']/g, ' ');
 
-    //diviser la chaine de caractère en motes
+    //diviser la chaine de caractère en mots au niveau des espaces
     let words = clear.split(' ');
 
     //on va supprimer tout les doublons en utilisant un Set
