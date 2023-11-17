@@ -19,18 +19,8 @@ form.addEventListener('submit', (event) => {
     let text = textAera.value;
     //On converti tout le texte en lowercase
     text = text.toLowerCase();
-    //On filtre tous les caractères spéciaux
-    let filteredText = text.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ]/gi, " ");
-    
-    // Filtre tous les caractères spéciaux (avec une regex)
-    // if (special_char.checked) {
-    //     filteredText = filteredText.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ]/gi, " ");
-    // }
-
-
-    // Filtrer les éléments qui ne sont pas dans 'articles'
-    // let tabFiltre = tab.filter(element => !articles.includes(element));
-
+    //On filtre tous les caractères spéciaux et nombres
+    let filteredText = text.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ-œ]|[\d]+(\.\d+)?/gi, " ");
 
     // transformer la chaine de caractère en tableau
     let textToArray = filteredText.split(' ');
@@ -41,14 +31,14 @@ form.addEventListener('submit', (event) => {
 
     // Filtrer tous les articles
     if (articles.checked) {
-        let articles = ["le","la","les","un","une","des","du","de","d","l","au","aux","à"];
+        let articles = ["le","la","les","un","une","des","du","de","d","l","au","aux","à","c","s"];
         textToArray  = textToArray.filter(indice => !articles.includes(indice)); 
     } 
 
     //filtrer tous les conjonctions de coordination et subordination
     if (conjonctions.checked) {
         let conj_coord = ["et", "mais", "ou", "donc", "or", "ni", "car"];
-        let conj_sub = ["que", "quand", "si", "comme", "parce", "afin", "pendant"];
+        let conj_sub = ["que", "quand", "si", "comme", "parce", "afin", "pendant", "tandis"];
         //On concataine les deux tableaux
         let arrayConjonctions = conj_coord.concat(conj_sub);
         //On filtre toutes les conjonctions du texte
@@ -58,20 +48,26 @@ form.addEventListener('submit', (event) => {
     //filtrer tous les pronoms
     if (pronoms.checked) {
         
-        let pronomsDemonstratif = ["ce", "ceci", "cela", "celui", "celui-ci", "celui-là", "celle", "celle-ci", "celle-là", "celles", "celles-ci", "celles-là", "ceux", "ceux-ci", "ceux-là", "chacun", "chacune", "chaque"];
+        let pronomsDemonstratif = ["ce","cette","ces", "ceci", "cela", "celui", "celui-ci", "celui-là", "celle", "celle-ci", "celle-là", "celles", "celles-ci", "celles-là", "ceux", "ceux-ci", "ceux-là", "chacun", "chacune", "chaque"];
 
         let pronomsIndefini = ["un", "une", "des", "du", "la", "le", "les", "l'", "un", "une", "des", "du", "la", "le", "les", "l'"];
 
-        let pronomsPersonnel = ["je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"];
+        let pronomsPersonnel = ["j'", "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"];
 
-        let pronomsPossessif = ["mon", "ton", "son", "notre", "votre", "leur", "ma", "ta", "sa", "notre", "votre", "leur", "mes", "tes", "ses", "notre", "votre", "leur", "mon", "ton", "son", "notre", "votre", "leur", "ma", "ta", "sa", "notre", "votre", "leur", "mes", "tes", "ses", "notre", "votre", "leur"];
+        let pronomsPossessif = ["mon", "ton", "son", "notre", "votre", "leur", "ma", "ta", "sa", "mes", "tes", "ses", "mon", "ton", "son", "ma", "ta", "sa", "mes", "tes", "ses", "nos", "vos", "leurs"];
 
-        let pronomsReflexif = ["me", "te", "se", "nous", "vous", "se", "nous", "vous", "se", "me", "te", "se", "nous", "vous", "se", "me", "te", "se", "nous", "vous", "se"];
+        let pronomsReflexif = ["me", "te", "se"];
 
         let pronomsInterrogatif = ["qui", "quoi", "où", "quand", "comment", "pourquoi", "quel", "quelle", "quels", "quelles", "quelque", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quelque chose", "quel"];
 
+        let determinantsIndefinis = ["quelques", "plusieurs", "plusieurs", "quelques-uns", "quelques-unes", "plusieurs", "plusieurs", "beaucoup", "peu", "assez", "tant", "trop", "tout", "tous", "toute", "toutes"]
+
+        let bazar = ["alors" , "au" , "aucun" , "aucune" , "aussi" , "autre" , "autres" , "aux" , "avant" , "avec" , "avoir" , "bon" , "lorsque", "par", "pour"];
         // On concataine tous les tableaux des pronoms
-        let arrayPronoms = pronomsDemonstratif.concat(pronomsIndefini).concat(pronomsPersonnel).concat(pronomsPossessif).concat(pronomsReflexif).concat(pronomsInterrogatif);
+        let arrayPronoms = pronomsDemonstratif.concat(pronomsIndefini).concat(pronomsPersonnel).concat(pronomsPossessif).concat(pronomsReflexif).concat(pronomsInterrogatif).concat(determinantsIndefinis).concat(bazar);
+        
+        //On va cleaner le tableau des pronoms
+        arrayPronoms = clearTable(arrayPronoms);
 
         //On filtre tous les pronoms du texte
         textToArray = textToArray.filter(indice => !arrayPronoms.includes(indice));
@@ -104,7 +100,8 @@ form.addEventListener('submit', (event) => {
             "à l'avant",
             "à l'intérieur",
             "à l'extérieur",
-            "au-dessus",
+            "au",
+            "dessus",
             "au-dessous",
             "au-dessus de",
             "au-dessous de",
@@ -121,7 +118,8 @@ form.addEventListener('submit', (event) => {
             "au-dessous",
             "au-dessus de",
             "au-dessous de",
-            "à gauche",
+            "à",
+            "gauche",
             "à droite",
             "en haut",
             "en bas",
@@ -168,18 +166,22 @@ form.addEventListener('submit', (event) => {
         textToArray = textToArray.filter(indice => !arrayPrepositionsClear.includes(indice));
     }
 
+    
+
     //On va filter les mots supplémentaire ajoutés manuellement
     if (motsSup !== null) {
         // On mettre les mots sup dans un tableau
         let arrayMotsSup = motsSup.value.split(' ');
 
         textToArray = textToArray.filter(indice => !arrayMotsSup.includes(indice));
+        
     }
 
-     // On nettoye le tableau final
-     textToArray = clearTable(textToArray);
+    // On nettoye le tableau final
+    textToArray = clearTable2(textToArray);
 
     console.log(textToArray);
+    
 });
 
 
@@ -202,8 +204,28 @@ function clearTable (table) {
 
     //on converti en un tableau et on join 
     let newTable = Array.from(uniqueWords);
+    //On supprime tout les indices vides
+    let outerTable = newTable.filter(indice => indice.trim() !== '');
 
-    let deleteEmptyIndex = newTable.filter(indice => indice.trim() !== '');
+    return outerTable;
+}  
 
-    return deleteEmptyIndex;
+// Cleaner les tableaux sans supprimer les mots doublons
+
+function clearTable2 (table) {
+    //convertir le tableau en string
+    let tableToString = table.join(' ');
+    
+    //supprimer tout les tirets et apostrophes 
+    let clear = tableToString.replace(/[-']/g, ' ');
+
+    //diviser la chaine de caractère en mots au niveau des espaces et convertir en tableau
+    let words = clear.split(' ');
+
+    //on converti en un tableau et on join 
+    let newTable = Array.from(words);
+    //On supprime tout les indices vides
+    let outerTable = newTable.filter(indice => indice.trim() !== '');
+
+    return outerTable;
 }  
