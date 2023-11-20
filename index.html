@@ -21,10 +21,7 @@
                 <label for="textAera" class="form-label">Texte</label>
                 <textarea class="textAera form-control" id="textAera" rows="10" placeholder="Copier le texte à traiter ici..."></textarea>
               </div>
-              <!-- <div class="form-check form-switch">
-                <input class="special-char form-check-input" type="checkbox" role="switch" id="special-char" name="" checked>
-                <label class="form-check-label" for="special-char">Filter les caractères spéciaux</label>
-              </div> -->
+          
               <div class="form-check form-switch">
                 <input class="articles-filter form-check-input" type="checkbox" role="switch" id="articles" name="articles" checked>
                 <label class="form-check-label" for="articles">Filtrer les articles</label>
@@ -46,6 +43,11 @@
                 <label for="motsSup" class="form-label">Ajout des mots supplémentaires</label>
                 <input type="text" class="form-control" id="motsSup" name="motsSup" placeholder="Ex: mon ton s tout">
               </div>
+              <div class="mb-3">
+                <label for="ranking" class="form-label">Nombre de mots</label>
+                <input type="number" step="1" min="1" max="200" required class="form-control" id="ranking" name="ranking" placeholder="Entre 1 et 100">
+              </div>
+
                 
                 <div class="row text text-center">
                   <div class="col-12 m-2">
@@ -58,44 +60,28 @@
               </div>
         </form>
 
-
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Mots</th>
-                        <th scope="col">Occurences</th>
-                        <th scope="col">Densité</th>
-                      </tr>
-                    </thead>
-                    <tbody id="table-body">
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
+        <div class="container py-5">
+          <div class="row">
+              <div class="col">
+                  <table class="table table-bordered table-hover table-striped">
+                      <thead class="table-dark">
+                          <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Mots</th>
+                              <th scope="col">Occurences</th>
+                              <th scope="col">Densité</th>
+                          </tr>
+                      </thead>
+                      <tbody id="table-body">
+                          <!-- Les lignes du tableau seront ajoutées ici -->
+                      </tbody>
                   </table>
-                </div>
-            </div>
-        </div>
+              </div>
+          </div>
+      </div>
+      
 
-        <p>Bien sûr! Voici un texte de 200 mots qui utilise des prépositions, des pronoms personnels, des pronoms relatifs, des conjonctions de coordination, des conjonctions de subordination et des caractères spéciaux :
+          <p> Bien sûr! Voici un texte de 200 mots qui utilise des prépositions, des pronoms personnels, des pronoms relatifs, des conjonctions de coordination, des   conjonctions de subordination et des caractères spéciaux :
 
           "Le soleil se levait lentement au-dessus de l'horizon, illuminant le paysage d'une douce lueur dorée. Les oiseaux chantaient joyeusement dans les arbres, tandis que les fleurs s'épanouissaient sous les rayons chauds du soleil. Au milieu de cette scène idyllique, un homme se promenait avec son chien, profitant de la tranquillité de la nature qui l'entourait.
           

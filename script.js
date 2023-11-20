@@ -1,18 +1,21 @@
 
 //déclaration des variables
 
-const form = document.getElementById("form");
 const name = document.getElementById("projectName");
+const form = document.getElementById("form");
 const textAera = document.getElementById("textAera");
+const wordRanked = document.getElementById("ranking").value;
+const motsSup = document.getElementById("motsSup");
+const submit = document.getElementById("submit");
+const restForm = document.getElementById("reset");
+
 const special_char = document.getElementById("special-char");
 const articles = document.getElementById("articles");
 const conjonctions = document.getElementById("conjonctions");
 const pronoms = document.getElementById("pronoms");
 const prepostions = document.getElementById("prepostions");
-const motsSup = document.getElementById("motsSup");
 
-const submit = document.getElementById("submit");
-const reste = document.getElementById("reset");
+
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -180,8 +183,68 @@ form.addEventListener('submit', (event) => {
     // On nettoye le tableau final
     textToArray = clearTable2(textToArray);
 
-    console.log(textToArray);
+
+    /*
+        *Affichage des différents resultats
+    */
+
+    // Declaration des variables lier aux noeds du DOM
+
+
+    // Le nombre total de mots dans le tableau filtré
+    let totalWords = textToArray.length; 
     
+    // On va compter les occurence de chaque mots 
+    let wordCounts = {};
+
+    textToArray.forEach(word => { 
+        wordCounts[word] = (wordCounts[word] || 0) + 1;        
+    });
+
+    // On va calculer la densité de chaque mot et trier 
+
+    let wordDendities = Object.entries(wordCounts).map(([word, count]) => {
+        return { word, count, density: (count / totalWords).toFixed(4) };
+    }).sort((a, b) => b.count - a.count); 
+
+    // On selectionne les 10 mots les plus fréquents
+    let topWords = wordDendities.slice(0, wordRanked); 
+
+    //va afficher les données dans notre tableau html
+    let tableBody = document.getElementById("table-body"); 
+
+    // Boucle sur le topWords pour créer les rangées du tableau
+    topWords.forEach((wordData, index) => {
+        //creation d'une nouvelle rangé
+        let row = document.createElement('tr');
+
+        // On ajoute les cellules à la rangée 
+        let cellRank = row.insertCell(0);
+        cellRank.textContent = index + 1; // Rank
+        cellRank.setAttribute('scope', 'row') // ajouter l'attribut scope='row' pour le style
+
+
+        let cellWord = row.insertCell(1);
+        cellWord.textContent = wordData.word // Mot
+
+        let cellCount = row.insertCell(2);
+        cellCount.textContent = wordData.count; // Occurences
+
+        let cellDensity = row.insertCell(3);
+        cellDensity.textContent = wordData.density; // Densité
+
+        // On ajoute la rangé au corp du tableau
+        tableBody.appendChild(row);
+
+    })
+    
+});
+
+// Gestionnaire d'événements pour le bouton 'Reset'
+restForm.addEventListener('click', () => {
+    textAera.value = ''; // Réinitialiser le contenu du textarea
+    form.reset(); // Réinitialiser les autres champs du formulaire
+    document.getElementById("table-body").innerHTML = ''; // Effacer le contenu du tableau
 });
 
 
