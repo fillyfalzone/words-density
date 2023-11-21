@@ -1,21 +1,18 @@
 
 //déclaration des variables
 
-const name = document.getElementById("projectName");
 const form = document.getElementById("form");
+const name = document.getElementById("projectName");
 const textAera = document.getElementById("textAera");
-const wordRanked = document.getElementById("ranking").value;
-const motsSup = document.getElementById("motsSup");
-const submit = document.getElementById("submit");
-const restForm = document.getElementById("reset");
-
 const special_char = document.getElementById("special-char");
 const articles = document.getElementById("articles");
 const conjonctions = document.getElementById("conjonctions");
 const pronoms = document.getElementById("pronoms");
 const prepostions = document.getElementById("prepostions");
+const motsSup = document.getElementById("motsSup");
 
-
+const submit = document.getElementById("submit");
+const reste = document.getElementById("reset");
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -189,7 +186,7 @@ form.addEventListener('submit', (event) => {
     */
 
     // Declaration des variables lier aux noeds du DOM
-
+    let nbMots = document.getElementById("nbMots");
 
     // Le nombre total de mots dans le tableau filtré
     let totalWords = textToArray.length; 
@@ -208,7 +205,7 @@ form.addEventListener('submit', (event) => {
     }).sort((a, b) => b.count - a.count); 
 
     // On selectionne les 10 mots les plus fréquents
-    let topWords = wordDendities.slice(0, wordRanked); 
+    let topWords = wordDendities.slice(0, 10); 
 
     //va afficher les données dans notre tableau html
     let tableBody = document.getElementById("table-body"); 
@@ -221,8 +218,6 @@ form.addEventListener('submit', (event) => {
         // On ajoute les cellules à la rangée 
         let cellRank = row.insertCell(0);
         cellRank.textContent = index + 1; // Rank
-        cellRank.setAttribute('scope', 'row') // ajouter l'attribut scope='row' pour le style
-
 
         let cellWord = row.insertCell(1);
         cellWord.textContent = wordData.word // Mot
@@ -236,15 +231,11 @@ form.addEventListener('submit', (event) => {
         // On ajoute la rangé au corp du tableau
         tableBody.appendChild(row);
 
-    })
-    
-});
 
-// Gestionnaire d'événements pour le bouton 'Reset'
-restForm.addEventListener('click', () => {
-    textAera.value = ''; // Réinitialiser le contenu du textarea
-    form.reset(); // Réinitialiser les autres champs du formulaire
-    document.getElementById("table-body").innerHTML = ''; // Effacer le contenu du tableau
+    })
+
+    console.log(topWords); 
+    
 });
 
 
