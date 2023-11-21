@@ -190,10 +190,23 @@ function processFormData(event) {
     */
 
     // Declaration des variables lier aux noeds du DOM
-    let nbMots = document.getElementById("nbMots");
+    const ranking = document.getElementById("ranking").value * 1;
 
     // Le nombre total de mots dans le tableau filtré
     let totalWords = textToArray.length; 
+
+    // Determiner le nombre de mots après filtrage
+    const totalWordsAfter = document.getElementById("totalWordsAfter");
+    totalWordsAfter.innerText = totalWords + " Mots"
+
+    //Le nombre de mots avant Filtrage
+    const totalWordsBefore = document.getElementById("totalWordsBefore");
+    totalWordsBefore.innerText = textAera.value.split(' ').length + " Mots"; 
+
+    // Total de mots filtrés
+
+    const totalWordFiltered = document.getElementById("totalWordFiltered");
+    totalWordFiltered.innerText = (textAera.value.split(' ').length - totalWords) + " Mots" 
     
     // On va compter les occurence de chaque mots 
     let wordCounts = {};
@@ -205,11 +218,11 @@ function processFormData(event) {
     // On va calculer la densité de chaque mot et trier 
 
     let wordDensities = Object.entries(wordCounts).map(([word, count]) => {
-        return { word, count, density: (count / totalWords).toFixed(4) };
+        return { word, count, density: (count/ totalWords).toFixed(3)};
     }).sort((a, b) => b.count - a.count); 
 
     // On selectionne les 10 mots les plus fréquents
-    let topWords = wordDensities.slice(0, 10); 
+    let topWords = wordDensities.slice(0, ranking); 
 
     //va afficher les données dans notre tableau html
     let tableBody = document.getElementById("table-body"); 

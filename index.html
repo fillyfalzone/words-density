@@ -40,7 +40,7 @@
                 <label class=" form-check-label" for="prepostions">Filtrer les prépositions</label>
               </div>
               <div class="mb-3">
-                <label for="wordSup" class="form-label">Ajout des mots supplémentaires</label>
+                <label for="wordSup" class="form-label">Ajout des mots supplémentaires séparés d'un espace.</label>
                 <input type="text" class="form-control" id="wordSup" name="wordSup" placeholder="Ex: mon ton s tout">
               </div>
               <div class="mb-3">
@@ -59,7 +59,15 @@
                 </div>
               </div>
         </form>
-
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <p>Total des mots avant filtrage : <span id="totalWordsBefore" class="text text-primary"></span></p>
+              <p>Total des mots après filtrage : <span id="totalWordsAfter" class="text text-success"></span></p>
+              <p>Nombre de mots et caractères spéciaux filtrés : <span id="totalWordFiltered" class="text text-danger"></span></p>
+            </div>
+          </div>
+        </div>
         <div class="container py-5">
           <div class="row">
               <div class="col">
@@ -80,7 +88,11 @@
           </div>
       </div>
       
-
+<br>
+<br>
+<br>
+<br>
+<br>
           <p> Bien sûr! Voici un texte de 200 mots qui utilise des prépositions, des pronoms personnels, des pronoms relatifs, des conjonctions de coordination, des   conjonctions de subordination et des caractères spéciaux :
 
           "Le soleil se levait lentement au-dessus de l'horizon, illuminant le paysage d'une douce lueur dorée. Les oiseaux chantaient joyeusement dans les arbres, tandis que les fleurs s'épanouissaient sous les rayons chauds du soleil. Au milieu de cette scène idyllique, un homme se promenait avec son chien, profitant de la tranquillité de la nature qui l'entourait.
