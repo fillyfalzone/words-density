@@ -4,17 +4,19 @@
 const form = document.getElementById("form");
 const name = document.getElementById("projectName");
 const textAera = document.getElementById("textAera");
+const wordSup = document.getElementById("wordSup");
+const submit = document.getElementById("submit");
+const formReset = document.getElementById("formReset");
+
+
 const special_char = document.getElementById("special-char");
 const articles = document.getElementById("articles");
 const conjonctions = document.getElementById("conjonctions");
 const pronoms = document.getElementById("pronoms");
 const prepostions = document.getElementById("prepostions");
-const motsSup = document.getElementById("motsSup");
 
-const submit = document.getElementById("submit");
-const reste = document.getElementById("reset");
 
-form.addEventListener('submit', (event) => {
+function processFormData(event) {
     event.preventDefault();
     let text = textAera.value;
     //On converti tout le texte en lowercase
@@ -169,16 +171,18 @@ form.addEventListener('submit', (event) => {
     
 
     //On va filter les mots supplémentaire ajoutés manuellement
-    if (motsSup !== null) {
+    if (wordSup !== null) {
         // On mettre les mots sup dans un tableau
-        let arrayMotsSup = motsSup.value.split(' ');
+        let arrayWordSup = wordSup.value.split(' ');
 
-        textToArray = textToArray.filter(indice => !arrayMotsSup.includes(indice));
+        textToArray = textToArray.filter(indice => !arrayWordSup.includes(indice));
         
     }
 
     // On nettoye le tableau final
     textToArray = clearTable2(textToArray);
+
+    document.getElementById("table-body").innerHTML = ''; // Effacer le contenu du tableau
 
 
     /*
@@ -200,12 +204,12 @@ form.addEventListener('submit', (event) => {
 
     // On va calculer la densité de chaque mot et trier 
 
-    let wordDendities = Object.entries(wordCounts).map(([word, count]) => {
+    let wordDensities = Object.entries(wordCounts).map(([word, count]) => {
         return { word, count, density: (count / totalWords).toFixed(4) };
     }).sort((a, b) => b.count - a.count); 
 
     // On selectionne les 10 mots les plus fréquents
-    let topWords = wordDendities.slice(0, 10); 
+    let topWords = wordDensities.slice(0, 10); 
 
     //va afficher les données dans notre tableau html
     let tableBody = document.getElementById("table-body"); 
@@ -230,15 +234,19 @@ form.addEventListener('submit', (event) => {
 
         // On ajoute la rangé au corp du tableau
         tableBody.appendChild(row);
-
-
     })
-
-    console.log(topWords); 
     
+};
+
+form.addEventListener('submit', processFormData); 
+
+// Gestionnaire d'événements pour le bouton 'Reset'
+formReset.addEventListener('click', () => {
+    textAera.value = ''; // Réinitialiser le contenu du textarea
+    wordSup.value = '';
+    form.reset(); // Réinitialiser les autres champs du formulaire
+    document.getElementById("table-body").innerHTML = ''; // Effacer le contenu du tableau
 });
-
-
 
 
      
