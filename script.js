@@ -22,7 +22,8 @@ function processFormData(event) {
     //On converti tout le texte en lowercase
     text = text.toLowerCase();
     //On filtre tous les caractères spéciaux et nombres
-    let filteredText = text.replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ-œ]|[\d]+(\.\d+)?/gi, " ");
+    let filteredText = text.replace(/\bh[1-6]\b|-/gi, " ").replace(/[^\w\sÀ-ÖÙ-öÙ-ÿ-œ]|[\d]+(\.\d+)?/gi, " ");
+    console.log(filteredText);
 
     // transformer la chaine de caractère en tableau
     let textToArray = filteredText.split(' ');
@@ -52,7 +53,7 @@ function processFormData(event) {
         
         let pronomsDemonstratif = ["ce","cette","ces", "ceci", "cela", "celui", "celui-ci", "celui-là", "celle", "celle-ci", "celle-là", "celles", "celles-ci", "celles-là", "ceux", "ceux-ci", "ceux-là", "chacun", "chacune", "chaque"];
 
-        let pronomsIndefini = ["un", "une", "des", "du", "la", "le", "les", "l'", "un", "une", "des", "du", "la", "le", "les", "l'"];
+        let pronomsIndefini = ["un", "une", "des", "du", "la", "le", "les", "l'", "un", "une", "des", "du", "la", "le", "les", "l'","l"];
 
         let pronomsPersonnel = ["j'", "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles", "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles"];
 
@@ -64,7 +65,7 @@ function processFormData(event) {
 
         let determinantsIndefinis = ["quelques", "plusieurs", "plusieurs", "quelques-uns", "quelques-unes", "plusieurs", "plusieurs", "beaucoup", "peu", "assez", "tant", "trop", "tout", "tous", "toute", "toutes"]
 
-        let bazar = ["alors" , "au" , "aucun" , "aucune" , "aussi" , "autre" , "autres" , "aux" , "avant" , "avec" , "avoir" , "bon" , "lorsque", "par", "pour"];
+        let bazar = ["alors" , "au" , "aucun" , "aucune" , "aussi" , "autre" , "autres" , "aux" , "avant" , "avec" , "avoir" , "bon" , "lorsque", "par", "pour", "plus", "h", "qu", "ne", "chez", "ainsi", "le"];
         // On concataine tous les tableaux des pronoms
         let arrayPronoms = pronomsDemonstratif.concat(pronomsIndefini).concat(pronomsPersonnel).concat(pronomsPossessif).concat(pronomsReflexif).concat(pronomsInterrogatif).concat(determinantsIndefinis).concat(bazar);
         
